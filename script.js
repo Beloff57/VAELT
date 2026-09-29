@@ -367,56 +367,45 @@ if (
     ===================================================== */
 
     const closeMobileMenu = () => {
+    if (!mobileMenuTrigger || !mobileMenu) return;
 
-        if (!mobileMenuTrigger || !mobileMenu) return;
+    mobileMenuTrigger.classList.remove("active");
 
-        mobileMenuTrigger.classList.remove("active");
+    mobileMenuTrigger.setAttribute(
+        "aria-expanded",
+        "false"
+    );
 
-        mobileMenuTrigger.setAttribute(
-            "aria-expanded",
-            "false"
-        );
+    mobileMenu.classList.remove("active");
 
-        mobileMenu.classList.remove("active");
+    document.body.classList.remove("no-scroll");
+};
 
-    };
+if (mobileMenuTrigger && mobileMenu) {
+    mobileMenuTrigger.addEventListener("click", () => {
+        const isOpen =
+            mobileMenu.classList.contains("active");
 
+        if (isOpen) {
+            closeMobileMenu();
+        } else {
+            mobileMenuTrigger.classList.add("active");
 
-    if (mobileMenuTrigger && mobileMenu) {
+            mobileMenuTrigger.setAttribute(
+                "aria-expanded",
+                "true"
+            );
 
-        mobileMenuTrigger.addEventListener(
-            "click",
-            () => {
+            mobileMenu.classList.add("active");
 
-                const isOpen =
-                    mobileMenu.classList.contains("active");
+            document.body.classList.add("no-scroll");
+        }
+    });
+}
 
-
-                if (isOpen) {
-
-                    closeMobileMenu();
-
-                } else {
-
-                    mobileMenuTrigger.classList.add(
-                        "active"
-                    );
-
-                    mobileMenuTrigger.setAttribute(
-                        "aria-expanded",
-                        "true"
-                    );
-
-                    mobileMenu.classList.add(
-                        "active"
-                    );
-
-                }
-
-            }
-        );
-
-    }
+mobileMenuLinks.forEach(link => {
+    link.addEventListener("click", closeMobileMenu);
+});
 
 
     mobileMenuLinks.forEach(link => {
